@@ -96,6 +96,6 @@ function MeetingPage() {
 
         <AiOutput value={output} onChange={setOutput} loading={mutation.isPending} />
       </div>
-    </div>
+    </FeatureAccentProvider>
   );
 }
