@@ -37,8 +37,6 @@ export function FeatureAccentProvider({
     "--primary": `oklch(0.55 ${chroma} ${hue})`,
     "--primary-glow": `oklch(0.72 ${chroma * 0.85} ${glowHue})`,
     "--ring": `oklch(0.55 ${chroma} ${hue})`,
-    "--accent": `oklch(0.95 ${Math.min(chroma * 0.25, 0.05)} ${hue})`,
-    "--accent-foreground": `oklch(0.35 ${chroma * 0.8} ${hue})`,
     "--gradient-primary": `linear-gradient(135deg, oklch(0.52 ${chroma} ${hue}), oklch(0.68 ${chroma * 0.9} ${glowHue}))`,
     "--shadow-elegant": `0 10px 30px -12px color-mix(in oklab, oklch(0.55 ${chroma} ${hue}) 30%, transparent)`,
   } as CSSProperties;
