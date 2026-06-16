@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { AiOutput } from "@/components/ai-output";
 import { Disclaimer } from "@/components/disclaimer";
+import { FeatureAccentProvider } from "@/components/feature-accent";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -44,7 +45,7 @@ function MeetingPage() {
   });
 
   return (
-    <div>
+    <FeatureAccentProvider accent="cyan">
       <PageHeader
         icon={FileText}
         title="Meeting Notes Summarizer"
