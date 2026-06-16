@@ -32,35 +32,40 @@ const tools = [
     description: "Draft polished emails from a short brief.",
     icon: Mail,
     href: "/email" as const,
-    accent: "from-indigo-500/15 to-violet-500/10",
+    accent: "from-sky-500/20 to-blue-400/10",
+    iconClass: "bg-sky-500/10 text-sky-600 dark:text-sky-300",
   },
   {
     title: "Meeting Notes Summarizer",
     description: "Turn raw notes into summaries, decisions and action items.",
     icon: FileText,
     href: "/meeting" as const,
-    accent: "from-sky-500/15 to-indigo-500/10",
+    accent: "from-cyan-500/20 to-sky-400/10",
+    iconClass: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-300",
   },
   {
     title: "AI Task Planner",
     description: "Break goals into milestones and prioritized tasks.",
     icon: ListChecks,
     href: "/tasks" as const,
-    accent: "from-emerald-500/15 to-teal-500/10",
+    accent: "from-blue-700/25 to-blue-500/10",
+    iconClass: "bg-blue-700/10 text-blue-800 dark:text-blue-300",
   },
   {
     title: "AI Research Assistant",
     description: "Get structured briefings on any topic in seconds.",
     icon: Search,
     href: "/research" as const,
-    accent: "from-amber-500/15 to-orange-500/10",
+    accent: "from-blue-500/20 to-indigo-400/10",
+    iconClass: "bg-blue-500/10 text-blue-600 dark:text-blue-300",
   },
   {
     title: "AI Chatbot",
     description: "Chat with your assistant. Threads stored on your device.",
     icon: MessagesSquare,
     href: "/chat" as const,
-    accent: "from-fuchsia-500/15 to-pink-500/10",
+    accent: "from-indigo-500/20 to-blue-500/10",
+    iconClass: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-300",
   },
 ];
 
@@ -123,7 +128,7 @@ function Dashboard() {
                   className={`pointer-events-none absolute inset-0 bg-gradient-to-br opacity-0 transition group-hover:opacity-100 ${t.accent}`}
                 />
                 <div className="relative">
-                  <div className="mb-4 grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
+                  <div className={`mb-4 grid h-10 w-10 place-items-center rounded-lg ${t.iconClass}`}>
                     <t.icon className="h-5 w-5" />
                   </div>
                   <div className="font-semibold">{t.title}</div>
