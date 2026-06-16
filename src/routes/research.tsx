@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { AiOutput } from "@/components/ai-output";
 import { Disclaimer } from "@/components/disclaimer";
+import { FeatureAccentProvider } from "@/components/feature-accent";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,7 +45,7 @@ function ResearchPage() {
   });
 
   return (
-    <div>
+    <FeatureAccentProvider accent="azure">
       <PageHeader
         icon={Search}
         title="AI Research Assistant"
@@ -93,6 +94,6 @@ function ResearchPage() {
 
         <AiOutput value={output} onChange={setOutput} loading={mutation.isPending} />
       </div>
-    </div>
+    </FeatureAccentProvider>
   );
 }

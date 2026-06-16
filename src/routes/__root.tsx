@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import { AppSidebar } from "../components/app-sidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "../components/ui/sidebar";
+import { ThemeToggle } from "../components/theme-toggle";
 import { Toaster } from "../components/ui/sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -138,7 +139,10 @@ function RootComponent() {
         <SidebarInset>
           <header className="sticky top-0 z-10 flex h-12 shrink-0 items-center gap-2 border-b border-border bg-background/80 px-3 backdrop-blur">
             <SidebarTrigger />
-            <div className="ml-auto text-xs text-muted-foreground">Powered by Lovable AI</div>
+            <div className="ml-auto flex items-center gap-3">
+              <span className="hidden text-xs text-muted-foreground sm:inline">Powered by Lovable AI</span>
+              <ThemeToggle />
+            </div>
           </header>
           <main className="min-h-[calc(100svh-3rem)]">
             <Outlet />
