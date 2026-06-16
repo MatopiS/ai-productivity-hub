@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { AiOutput } from "@/components/ai-output";
 import { Disclaimer } from "@/components/disclaimer";
+import { FeatureAccentProvider } from "@/components/feature-accent";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,7 +52,7 @@ function EmailPage() {
   });
 
   return (
-    <div>
+    <FeatureAccentProvider accent="sky">
       <PageHeader
         icon={Mail}
         title="Smart Email Generator"
@@ -128,6 +129,6 @@ function EmailPage() {
           placeholder="Your email draft will appear here."
         />
       </div>
-    </div>
+    </FeatureAccentProvider>
   );
 }

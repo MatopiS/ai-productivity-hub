@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
 import { Disclaimer } from "@/components/disclaimer";
+import { FeatureAccentProvider } from "@/components/feature-accent";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -136,7 +137,7 @@ function ChatPage() {
   };
 
   return (
-    <div className="flex h-[calc(100svh-3rem)] flex-col">
+    <FeatureAccentProvider accent="royal" className="flex h-[calc(100svh-3rem)] flex-col">
       <PageHeader
         icon={MessagesSquare}
         title="AI Chat"
@@ -249,7 +250,7 @@ function ChatPage() {
           ) : null}
         </form>
       </div>
-    </div>
+    </FeatureAccentProvider>
   );
 }
 
