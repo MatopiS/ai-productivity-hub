@@ -148,7 +148,7 @@ export function clearToolHistory(tool: Exclude<ToolKey, "chat">) {
   }
 }
 
-export function useActivityRefresh(cb: () => void) {
+export function subscribeActivity(cb: () => void) {
   if (typeof window === "undefined") return () => {};
   const handler = () => cb();
   window.addEventListener(UPDATE_EVENT, handler);

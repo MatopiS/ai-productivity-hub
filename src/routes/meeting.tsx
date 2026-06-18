@@ -27,7 +27,7 @@ import {
   loadHistory,
   logActivity,
   saveHistory,
-  useActivityRefresh,
+  subscribeActivity,
 } from "@/lib/activity-store";
 import { toast } from "sonner";
 
@@ -62,7 +62,7 @@ function MeetingPage() {
 
   useEffect(() => {
     setHistory(loadHistory<MeetingHistoryItem>(KEY));
-    return useActivityRefresh(() => setHistory(loadHistory<MeetingHistoryItem>(KEY)));
+    return subscribeActivity(() => setHistory(loadHistory<MeetingHistoryItem>(KEY)));
   }, []);
 
   useEffect(() => {

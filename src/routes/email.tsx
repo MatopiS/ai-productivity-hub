@@ -30,7 +30,7 @@ import {
   logActivity,
   saveHistory,
   slugify,
-  useActivityRefresh,
+  subscribeActivity,
 } from "@/lib/activity-store";
 import { toast } from "sonner";
 
@@ -69,7 +69,7 @@ function EmailPage() {
   useEffect(() => {
     setHistory(loadHistory<EmailHistoryItem>(KEY));
     setTone(loadPrefs().defaultTone);
-    return useActivityRefresh(() => setHistory(loadHistory<EmailHistoryItem>(KEY)));
+    return subscribeActivity(() => setHistory(loadHistory<EmailHistoryItem>(KEY)));
   }, []);
 
   // Persist edits to the active item

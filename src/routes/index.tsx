@@ -18,7 +18,7 @@ import {
   getCounts,
   loadActivity,
   relativeTime,
-  useActivityRefresh,
+  subscribeActivity,
   type ActivityEvent,
   type ToolKey,
 } from "@/lib/activity-store";
@@ -144,7 +144,7 @@ function Dashboard() {
       setActivity(loadActivity().slice(0, 8));
     };
     refresh();
-    return useActivityRefresh(refresh);
+    return subscribeActivity(refresh);
   }, []);
 
   const statOrder: ToolKey[] = ["email", "meeting", "tasks", "research", "chat"];

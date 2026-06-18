@@ -29,7 +29,7 @@ import {
   logActivity,
   saveHistory,
   slugify,
-  useActivityRefresh,
+  subscribeActivity,
 } from "@/lib/activity-store";
 import { toast } from "sonner";
 
@@ -65,7 +65,7 @@ function ResearchPage() {
   useEffect(() => {
     setHistory(loadHistory<ResearchHistoryItem>(KEY));
     setDepth(loadPrefs().defaultDepth);
-    return useActivityRefresh(() => setHistory(loadHistory<ResearchHistoryItem>(KEY)));
+    return subscribeActivity(() => setHistory(loadHistory<ResearchHistoryItem>(KEY)));
   }, []);
 
   useEffect(() => {
