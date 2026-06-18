@@ -1,61 +1,85 @@
 import { useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Monitor, Moon, Sun } from "lucide-react";
 
-type Theme = "light" | "dark";
-const STORAGE_KEY = "workplace-ai-theme";
+import { THEME_KEY } from "@/lib/activity-store";
 
-function applyTheme(theme: Theme) {
+export type ThemeChoice = "light" | "dark" | "system";
+
+function resolveTheme(choice: ThemeChoice): "light" | "dark" {
+  if (choice !== "system") return choice;
+  if (typeof window === "undefined") return "light";
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+export function applyTheme(choice: ThemeChoice) {
   if (typeof document === "undefined") return;
+  const effective = resolveTheme(choice);
   const root = document.documentElement;
-  root.classList.toggle("dark", theme === "dark");
-  root.style.colorScheme = theme;
+  root.classList.toggle("dark", effective === "dark");
+  root.style.colorScheme = effective;
+}
+
+export function loadStoredTheme(): ThemeChoice {
+  if (typeof window === "undefined") return "system";
+  try {
+    const saved = window.localStorage.getItem(THEME_KEY);
+    if (saved === "light" || saved === "dark" || saved === "system") return saved;
+  } catch {
+    /* ignore */
+  }
+  return "system";
+}
+
+export function persistTheme(choice: ThemeChoice) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(THEME_KEY, choice);
+  } catch {
+    /* ignore */
+  }
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<ThemeChoice>("system");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    let initial: Theme = "light";
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY) as Theme | null;
-      if (saved === "light" || saved === "dark") {
-        initial = saved;
-      } else if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
-        initial = "dark";
-      }
-    } catch {
-      /* ignore */
-    }
+    const initial = loadStoredTheme();
     setTheme(initial);
     applyTheme(initial);
     setMounted(true);
+
+    // React to system changes when in system mode
+    const mq = window.matchMedia?.("(prefers-color-scheme: dark)");
+    if (!mq) return;
+    const handler = () => {
+      if (loadStoredTheme() === "system") applyTheme("system");
+    };
+    mq.addEventListener?.("change", handler);
+    return () => mq.removeEventListener?.("change", handler);
   }, []);
 
-  const toggle = () => {
-    const next: Theme = theme === "dark" ? "light" : "dark";
+  const cycle = () => {
+    const order: ThemeChoice[] = ["light", "dark", "system"];
+    const next = order[(order.indexOf(theme) + 1) % order.length];
     setTheme(next);
+    persistTheme(next);
     applyTheme(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      /* ignore */
-    }
   };
+
+  const Icon = theme === "system" ? Monitor : theme === "dark" ? Sun : Moon;
+  const label =
+    theme === "system" ? "System theme" : theme === "dark" ? "Dark mode" : "Light mode";
 
   return (
     <button
       type="button"
-      onClick={toggle}
-      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-      title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+      onClick={cycle}
+      aria-label={`Theme: ${label}. Click to change.`}
+      title={`Theme: ${label}`}
       className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition hover:bg-accent hover:text-accent-foreground"
     >
-      {mounted && theme === "dark" ? (
-        <Sun className="h-4 w-4" />
-      ) : (
-        <Moon className="h-4 w-4" />
-      )}
+      {mounted ? <Icon className="h-4 w-4" /> : <Monitor className="h-4 w-4" />}
     </button>
   );
 }

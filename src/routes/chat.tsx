@@ -20,6 +20,12 @@ import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  CHAT_INCOGNITO_DEFAULT_KEY,
+  CHAT_INCOGNITO_KEY,
+  CHAT_STORAGE_KEY,
+  logActivity,
+} from "@/lib/activity-store";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -33,8 +39,8 @@ export const Route = createFileRoute("/chat")({
   component: ChatPage,
 });
 
-const STORAGE_KEY = "workplace-ai-chat-v1";
-const INCOGNITO_KEY = "workplace-ai-chat-incognito";
+const STORAGE_KEY = CHAT_STORAGE_KEY;
+const INCOGNITO_KEY = CHAT_INCOGNITO_KEY;
 
 const transport = new DefaultChatTransport({ api: "/api/chat" });
 
@@ -52,7 +58,11 @@ function loadStoredMessages(): UIMessage[] {
 
 function loadIncognito(): boolean {
   if (typeof window === "undefined") return false;
-  return localStorage.getItem(INCOGNITO_KEY) === "1";
+  const explicit = localStorage.getItem(INCOGNITO_KEY);
+  if (explicit === "1") return true;
+  if (explicit === "0") return false;
+  // No explicit choice yet — honor user's default-incognito preference.
+  return localStorage.getItem(CHAT_INCOGNITO_DEFAULT_KEY) === "1";
 }
 
 function ChatPage() {
@@ -105,6 +115,9 @@ function ChatPage() {
     if (!text || isLoading) return;
     setInput("");
     void sendMessage({ text });
+    if (!incognito) {
+      logActivity({ tool: "chat", title: text.slice(0, 80) });
+    }
   };
 
   const handleToggleIncognito = (next: boolean) => {

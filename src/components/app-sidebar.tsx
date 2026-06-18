@@ -6,6 +6,7 @@ import {
   ListChecks,
   Search,
   MessagesSquare,
+  Settings,
   Sparkles,
 } from "lucide-react";
 
@@ -30,6 +31,8 @@ const tools = [
   { title: "Research", url: "/research", icon: Search },
   { title: "AI Chat", url: "/chat", icon: MessagesSquare },
 ] as const;
+
+const secondary = [{ title: "Settings", url: "/settings", icon: Settings }] as const;
 
 export function AppSidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -58,6 +61,24 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {tools.map((t) => (
+                <SidebarMenuItem key={t.url}>
+                  <SidebarMenuButton asChild isActive={isActive(t.url)} tooltip={t.title}>
+                    <Link to={t.url}>
+                      <t.icon className="h-4 w-4" />
+                      <span>{t.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {secondary.map((t) => (
                 <SidebarMenuItem key={t.url}>
                   <SidebarMenuButton asChild isActive={isActive(t.url)} tooltip={t.title}>
                     <Link to={t.url}>
