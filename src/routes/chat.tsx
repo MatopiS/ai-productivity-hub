@@ -115,6 +115,9 @@ function ChatPage() {
     if (!text || isLoading) return;
     setInput("");
     void sendMessage({ text });
+    if (!incognito) {
+      logActivity({ tool: "chat", title: text.slice(0, 80) });
+    }
   };
 
   const handleToggleIncognito = (next: boolean) => {
